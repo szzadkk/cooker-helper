@@ -1,0 +1,21 @@
+<idea-plugin>
+  <actions>
+    <!-- Add your actions here -->
+  </actions>
+  <depends>com.intellij.modules.platform</depends>
+  <description><![CDATA[
+    a plugin which help programmer(may be also coder, code farmer, cooker ...)
+    ]]></description>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <!-- Add your extensions here -->
+  </extensions>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+  <id>io.github.szzadkk.cooker-helper</id>
+
+  <name>szzadkk</name>
+
+  <vendor email="yanming_1994@foxmail.com" url="szzadkk.github.io">szzadkk</vendor>
+</idea-plugin>
