@@ -9,6 +9,9 @@ import java.util.Collection;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * @author yanming
+ */
 public class FileNameTreeStructureProvider implements TreeStructureProvider {
 
   @Override
@@ -18,7 +21,10 @@ public class FileNameTreeStructureProvider implements TreeStructureProvider {
     for (AbstractTreeNode child : children) {
       if (child instanceof PsiFileNode) {
         PsiFileNode psiFileNode = (PsiFileNode) child;
-
+        PsiCommentsFileNode psiCommentsFileNode = new PsiCommentsFileNode(psiFileNode.getProject(),
+            psiFileNode.getValue(), psiFileNode.getSettings());
+        nodes.add(psiCommentsFileNode);
+        continue;
       }
       nodes.add(child);
     }

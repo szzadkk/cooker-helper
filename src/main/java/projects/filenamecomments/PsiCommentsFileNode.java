@@ -11,6 +11,9 @@ import com.intellij.ui.SimpleTextAttributes;
 import java.io.IOException;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * @author yanming
+ */
 public class PsiCommentsFileNode extends PsiFileNode {
 
   public PsiCommentsFileNode(Project project,
