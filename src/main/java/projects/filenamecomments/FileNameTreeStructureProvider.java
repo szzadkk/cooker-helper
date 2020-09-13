@@ -6,6 +6,7 @@ import com.intellij.ide.projectView.impl.nodes.PsiFileNode;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
 import java.util.ArrayList;
 import java.util.Collection;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,14 +22,21 @@ public class FileNameTreeStructureProvider implements TreeStructureProvider {
     for (AbstractTreeNode child : children) {
       if (child instanceof PsiFileNode) {
         PsiFileNode psiFileNode = (PsiFileNode) child;
-        PsiCommentsFileNode psiCommentsFileNode = new PsiCommentsFileNode(psiFileNode.getProject(),
-            psiFileNode.getValue(), psiFileNode.getSettings());
-        nodes.add(psiCommentsFileNode);
-        continue;
+        if (isJavaFile(psiFileNode)) {
+          PsiCommentsFileNode psiCommentsFileNode = new PsiCommentsFileNode(
+              psiFileNode.getProject(),
+              psiFileNode.getValue(), psiFileNode.getSettings());
+          nodes.add(psiCommentsFileNode);
+          continue;
+        }
       }
       nodes.add(child);
     }
     return nodes;
+  }
+
+  private boolean isJavaFile(PsiFileNode psiFileNode) {
+    return StringUtils.equals(psiFileNode.getVirtualFile().getExtension(), "java");
   }
 
   @Override

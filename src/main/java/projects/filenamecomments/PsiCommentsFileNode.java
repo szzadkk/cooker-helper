@@ -9,6 +9,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.ui.SimpleTextAttributes;
 import java.io.IOException;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -23,31 +24,38 @@ public class PsiCommentsFileNode extends PsiFileNode {
   }
 
   @Override
-  protected @NotNull PresentationData createPresentation() {
+  protected void updateImpl(@NotNull PresentationData data) {
+    super.updateImpl(data);
+  }
 
-    PresentationData presentation = super.createPresentation();
-    try {
-      VirtualFile virtualFile = this.getVirtualFile();
-      if (virtualFile == null) {
-        return presentation;
-      }
-      String content = VfsUtil.loadText(virtualFile);
-      int publicClassIndex = content.indexOf("public class");
-      if (publicClassIndex == 0) {
-        return presentation;
-      }
-      int firstCommentIndex = content.indexOf("/**");
-      if (firstCommentIndex == 0 || firstCommentIndex >= publicClassIndex) {
-        return presentation;
-      }
-      int commentEndIndex = content.indexOf('\n', firstCommentIndex);
-      presentation.addText(this.myName, SimpleTextAttributes.GRAY_ATTRIBUTES);
-      presentation.addText(content.substring(firstCommentIndex, commentEndIndex),
-          SimpleTextAttributes.GRAYED_ITALIC_ATTRIBUTES);
-    } catch (IOException e) {
-      System.out.println("error");
+  @Override
+  public void update(@NotNull PresentationData data) {
+    VirtualFile virtualFile = this.getVirtualFile();
+    if (virtualFile == null || !StringUtils.equals(virtualFile.getExtension(), "java")) {
+      super.update(data);
+      return;
     }
-
-    return presentation;
+    String content = null;
+    try {
+      content = VfsUtil.loadText(virtualFile);
+    } catch (IOException e) {
+      e.printStackTrace();
+      return;
+    }
+    int publicClassIndex = content.indexOf("public class");
+    if (publicClassIndex == 0) {
+      super.update(data);
+      return;
+    }
+    int firstCommentIndex = content.indexOf("/**");
+    if (firstCommentIndex == 0 || firstCommentIndex >= publicClassIndex) {
+      super.update(data);
+      return;
+    }
+    int commentEndIndex = content.indexOf('\n', firstCommentIndex);
+    data.addText(this.myName, SimpleTextAttributes.GRAY_ATTRIBUTES);
+    data.addText(content.substring(firstCommentIndex, commentEndIndex),
+        SimpleTextAttributes.GRAYED_ITALIC_ATTRIBUTES);
+    super.update(data);
   }
 }
