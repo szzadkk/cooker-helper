@@ -3,6 +3,7 @@
     <!-- Add your actions here -->
   </actions>
   <depends>com.intellij.modules.platform</depends>
+  <depends>com.intellij.modules.java</depends>
   <description><![CDATA[
     a plugin which help programmer(may be also coder, code farmer, cooker ...)
     ]]></description>
