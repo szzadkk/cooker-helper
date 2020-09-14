@@ -10,8 +10,7 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
-    <treeStructureProvider
-      implementation="projects.filenamecomments.FileNameTreeStructureProvider"/>
+    <projectViewNodeDecorator implementation="projects.filenamecomments.FileNameDecorator"/>
   </extensions>
 
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
